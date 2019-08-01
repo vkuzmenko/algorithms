@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GoogleInterviewQuestion {
+public class ProductOffersApiDesign {
 
     Map<Integer, List<Offer>> productOffers = new HashMap<>();
 
@@ -43,7 +43,7 @@ public class GoogleInterviewQuestion {
     }
 
     public static void main(String args[]) {
-        GoogleInterviewQuestion t = new GoogleInterviewQuestion();
+        ProductOffersApiDesign t = new ProductOffersApiDesign();
         t.add(1,1,2.5);
         t.add(1,2,3.0);
         t.add(1,3,4.0);
