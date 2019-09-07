@@ -1,37 +1,50 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class FindLongestSubstring {
 
-    public static int longestSubstringLength(String s) {
-        if (s.isEmpty()) return 0;
-        if (s.length() == 1) return 1;
+    private final static int NO_OF_CHARS = 256;
 
-        int maxLength = 0;
+    public static int longestSubstringLength(String str) {
+        if (str.isEmpty()) return 0;
+        if (str.length() == 1) return 1;
+        return longestSubstringLengthN(str);
+    }
 
-        for (int i = 0; i < s.length() - 1; ++i) {
-            List<Character> subString = new ArrayList<>();
-            subString.add(s.charAt(i));
-            for (int j = i + 1; j < s.length(); ++j) {
-                if (subString.contains(s.charAt(j))) {
-                    int repeatedCharIndex = subString.indexOf(s.charAt(j));
-                    i += (repeatedCharIndex + 1);
-                    subString.clear();
-                    break;
-                } else {
-                    subString.add(s.charAt(j));
-                }
-            }
+    private static int longestSubstringLengthN(String str)
+    {
+        int visited[] = new int[NO_OF_CHARS];
+        int cur_len = 1;
+        int max_len = 1;
+        int prev_index;
+
+        for (int i = 0; i < NO_OF_CHARS; i++) {
+            visited[i] = -1;
         }
 
-        return maxLength;
+        visited[str.charAt(0)] = 0;
+        for (int i = 1; i < str.length(); i++) {
+            prev_index = visited[str.charAt(i)];
+            if (prev_index == -1 || i - cur_len > prev_index)
+                cur_len++;
+            else {
+                if (cur_len > max_len)
+                    max_len = cur_len;
+
+                cur_len = i - prev_index;
+            }
+            visited[str.charAt(i)] = i;
+        }
+
+        if (cur_len > max_len)
+            max_len = cur_len;
+
+        return max_len;
     }
 
     public static void main(String[] args) {
-        System.out.println(FindLongestSubstring.longestSubstringLength(" "));
-        System.out.println(FindLongestSubstring.longestSubstringLength("a"));
-        System.out.println(FindLongestSubstring.longestSubstringLength("ab"));
-        System.out.println(FindLongestSubstring.longestSubstringLength("aba"));
+//        System.out.println(FindLongestSubstring.longestSubstringLength(""));
+//        System.out.println(FindLongestSubstring.longestSubstringLength(" "));
+//        System.out.println(FindLongestSubstring.longestSubstringLength("a"));
+//        System.out.println(FindLongestSubstring.longestSubstringLength("ab"));
+//        System.out.println(FindLongestSubstring.longestSubstringLength("aba"));
         System.out.println(FindLongestSubstring.longestSubstringLength("abcda"));
     }
 }
