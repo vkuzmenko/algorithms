@@ -13,33 +13,21 @@ public class BinaryTreeLevelOrderTraversal {
         if (root == null) return res;
         queue.add(root);
 
-        List<Integer> curLevelNodes = new LinkedList<>();
-        int nullsOnLevel = 0;
-        int nullsOnNextLevel = 0;
-        int maxNodesOnLevel = 1;
         while (!queue.isEmpty()) {
-            TreeNode cur = queue.poll();
+            int size = queue.size();
+            ArrayList<Integer> l = new ArrayList<>(size);
 
-            if (cur.left != null) {
-                queue.add(cur.left);
-            } else {
-                nullsOnNextLevel++;
+            for (int i = 0; i < size ; i++) {
+                TreeNode n = queue.poll();
+                l.add(n.val);
+
+                if (n.left != null)
+                    queue.add(n.left);
+                if (n.right != null)
+                    queue.add(n.right);
             }
 
-            if (cur.right != null) {
-                queue.add(cur.right);
-            } else {
-                nullsOnNextLevel++;
-            }
-
-            curLevelNodes.add(cur.val);
-
-            if (maxNodesOnLevel == curLevelNodes.size() + nullsOnLevel) {
-                res.add(curLevelNodes);
-                curLevelNodes = new LinkedList<>();
-                maxNodesOnLevel *= 2;
-                nullsOnLevel = nullsOnNextLevel;
-            }
+            res.add(l);
         }
 
         return res;
@@ -48,9 +36,15 @@ public class BinaryTreeLevelOrderTraversal {
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
-        root.left.left = new TreeNode(3);
-        root.left.left.left = new TreeNode(5);
-        root.left.left.left.left = new TreeNode(4);
+        root.left.left = new TreeNode(7);
+        root.right = new TreeNode(3);
+        root.right.right = new TreeNode(4);
+        root.right.left = new TreeNode(5);
+//        root.left.left = new TreeNode(3);
+//        root.left.left.left = new TreeNode(5);
+//        root.left.left.right = new TreeNode(6);
+//        root.left.left.right.right = new TreeNode(7);
+//        root.left.left.left.left = new TreeNode(4);
 
         List<List<Integer>> res = levelOrder(root);
     }
